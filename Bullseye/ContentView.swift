@@ -15,6 +15,7 @@ struct ContentView: View {
     @State var target = Int.random( in: 1...100 )
     @State var score = 0
     @State var round = 1
+    let midnightBlue = Color(red: 0.0 / 255.0, green: 51.0 / 255, blue: 102.0 / 255.0)
     
     struct LabelStyle: ViewModifier {
         func body(content: Content) -> some View {
@@ -84,7 +85,7 @@ struct ContentView: View {
             HStack {
                 
                 Text("1").modifier(LabelStyle())
-                Slider(value: $sliderValue, in: 1...100)
+                Slider(value: $sliderValue, in: 1...100).accentColor(Color.green)
                 Text("100").modifier(LabelStyle())
                 
             }
@@ -156,6 +157,7 @@ struct ContentView: View {
             .padding(.bottom, 20)
         }
         .background(Image("Background"), alignment: .center)
+        .accentColor(midnightBlue)
     }
     
     func sliderValueRounded() -> Int {
