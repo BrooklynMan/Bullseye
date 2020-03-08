@@ -10,9 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var alertIsVisible: Bool = false
-    @State var sliderValue: Double = 50.0
-    @State var target: Int = Int.random(in: 1...100)
+    @State var alertIsVisible = false
+    @State var sliderValue = 50.0
+    @State var target = Int.random(in: 1...100)
     
     var body: some View {
         VStack {
@@ -22,35 +22,43 @@ struct ContentView: View {
             // Target row
             HStack {
                 Text("Put the bullseye as close as you can to:")
-                Text("\(self.target)")
+                Text("\(target)")
             }
             
             Spacer()
             
             // Slider row
             HStack {
+                
                 Text("1")
-                Slider(value: self.$sliderValue, in: 1...100)
+                Slider(value: $sliderValue, in: 1...100)
                 Text("100")
+                
             }
             
             Spacer()
             
             //Button row
             Button(action: {
-                print("Button pressed!")
+                
                 self.alertIsVisible = true
+                
             }) {
+                
                 Text("Hit Me!")
+                
             }
             .alert(isPresented: $alertIsVisible) { () ->
+                
                 Alert in
-                let roundedValue: Int = Int(self.sliderValue.rounded())
+                
                 return Alert(
+                    
                     title: Text("Hello there!"),
-                    message: Text("The slider's value is \(roundedValue). \n" +
-                        "You scored \(self.pointForCurrentRound()) points this round."),
+                    message: Text("The slider's value is \(sliderValueRounded()). \n" +
+                        "You scored \(pointForCurrentRound()) points this round."),
                     dismissButton: .default(Text("Awesome!"))
+                    
                 )
             }
             
@@ -82,8 +90,13 @@ struct ContentView: View {
         }
     }
     
+    func sliderValueRounded() -> Int {
+        return Int(sliderValue.rounded())
+    }
+    
     func pointForCurrentRound() -> Int {
-        return 999
+        
+        return 100 - abs(target - sliderValueRounded())
     }
     
 }
