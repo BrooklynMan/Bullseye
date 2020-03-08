@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     @State var alertIsVisible: Bool = false
+    @State var whosThereIsVisible: Bool = false
     
     var body: some View {
         VStack {
@@ -21,7 +22,7 @@ struct ContentView: View {
                 print("Button pressed!")
                 self.alertIsVisible = true
             }) {
-                Text(/*@START_MENU_TOKEN@*/"Hit Me!"/*@END_MENU_TOKEN@*/)
+                Text("Who's there?")
             }
             .alert(isPresented: $alertIsVisible) { () ->
                 Alert in
@@ -29,6 +30,19 @@ struct ContentView: View {
                     title: Text("Hello there!"),
                     message: Text("This is my first popup."),
                     dismissButton: .default(Text("Awesome"))
+                )
+            }
+            Button(action: {
+                self.whosThereIsVisible = true
+            }) {
+                Text("Knock Knock")
+            }
+            .alert(isPresented: $whosThereIsVisible) { () ->
+                Alert in
+                return Alert(
+                    title: Text("Who's There?"),
+                    message: Text("Orange."),
+                    dismissButton: .default(Text("Orange who?"))
                 )
             }
         }
