@@ -16,6 +16,57 @@ struct ContentView: View {
     @State var score = 0
     @State var round = 1
     
+    struct LabelStyle: ViewModifier {
+        func body(content: Content) -> some View {
+            return content
+                
+                .foregroundColor(Color.white)
+                .font(Font.custom("Arial Rounded MT Bold", size: 18))
+                .modifier(Shadow())
+            
+        }
+    }
+    
+    struct ValueStyle: ViewModifier {
+        func body(content: Content) -> some View {
+            return content
+            
+                .foregroundColor(Color.yellow)
+                .font(Font.custom("Arial Rounded MT Bold", size: 24))
+                .modifier(Shadow())
+            
+        }
+    }
+    
+    struct ButtonLargeTextStyle: ViewModifier {
+        func body(content: Content) -> some View {
+            return content
+            
+                .foregroundColor(Color.black)
+                .font(Font.custom("Arial Rounded MT Bold", size: 18))
+            
+        }
+    }
+    
+    struct ButtonSmallTextStyle: ViewModifier {
+        func body(content: Content) -> some View {
+            return content
+            
+                .foregroundColor(Color.black)
+                .font(Font.custom("Arial Rounded MT Bold", size: 12))
+            
+        }
+    }
+    
+    struct Shadow: ViewModifier {
+        func body(content: Content) -> some View {
+            return content
+            
+                .shadow(color: Color.black, radius: 5)
+            
+        }
+    }
+    
     var body: some View {
         VStack {
             
@@ -23,8 +74,8 @@ struct ContentView: View {
             
             // Target row
             HStack {
-                Text("Put the bullseye as close as you can to:")
-                Text("\(target)")
+                Text("Put the bullseye as close as you can to:").modifier(LabelStyle())
+                Text("\(target)").modifier(ValueStyle())
             }
             
             Spacer()
@@ -32,9 +83,9 @@ struct ContentView: View {
             // Slider row
             HStack {
                 
-                Text("1")
+                Text("1").modifier(LabelStyle())
                 Slider(value: $sliderValue, in: 1...100)
-                Text("100")
+                Text("100").modifier(LabelStyle())
                 
             }
             
@@ -47,10 +98,10 @@ struct ContentView: View {
                 
             }) {
                 
-                Text("Hit Me!")
+                Text("Hit Me!").modifier(ButtonLargeTextStyle())
                 
-            }
-            .alert(isPresented: $alertIsVisible) { () ->
+                }
+                .alert(isPresented: $alertIsVisible) { () ->
                 
                 Alert in
                 
@@ -66,6 +117,7 @@ struct ContentView: View {
                     }
                 )
             }
+            .background(Image("Button")).modifier(Shadow())
             
             Spacer()
             
@@ -74,35 +126,48 @@ struct ContentView: View {
                 Button(action: {
                     self.resetGame()
                 }) {
-                    Text("Start Over")
+                    HStack {
+                        Image("StartOverIcon")
+                        Text("Start Over").modifier(ButtonSmallTextStyle())
+                    }
                 }
+                .background(Image("Button")).modifier(Shadow())
                 
                 Spacer()
                 
-                Text("Score:")
-                Text("\(score)")
+                Text("Score:").modifier(LabelStyle())
+                Text("\(score)").modifier(ValueStyle())
                 
                 Spacer()
                 
-                Text("Round:")
-                Text("\(round)")
+                Text("Round:").modifier(LabelStyle())
+                Text("\(round)").modifier(ValueStyle())
                 
                 Spacer()
                 
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                    Text("Info")
+                    HStack {
+                        Image("InfoIcon")
+                        Text("Info").modifier(ButtonSmallTextStyle())
+                    }
                 }
+                .background(Image("Button")).modifier(Shadow())
             }
             .padding(.bottom, 20)
         }
+        .background(Image("Background"), alignment: .center)
     }
     
     func sliderValueRounded() -> Int {
+        
         Int(sliderValue.rounded())
+        
     }
     
     func amountOff() -> Int {
+        
         abs(target - sliderValueRounded())
+        
     }
     
     func pointsForCurrentRound() -> Int {
@@ -153,6 +218,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().previewLayout(.fixed(width: 812, height: 375))
+        ContentView().previewLayout(.fixed(width: 896, height: 414))
     }
 }
