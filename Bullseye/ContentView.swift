@@ -14,14 +14,26 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text("Welcome to my first app!")
-                .fontWeight(.semibold)
-                .foregroundColor(Color.green)
+            // Target row
+            HStack {
+                Text("Put the bullseye as clos as you can to:")
+                Text("100")
+            }
+            
+            // Slider row
+            HStack {
+                Text("1")
+                Slider(value: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant(10)/*@END_MENU_TOKEN@*/)
+                Text("100")
+            }
+            
+            
+            //Button row
             Button(action: {
-                print("Button pressed!")
+                    print("Button pressed!")
                 self.alertIsVisible = true
             }) {
-                Text("Who's there?")
+                Text("Hit Me!")
             }
             .alert(isPresented: $alertIsVisible) { () ->
                 Alert in
@@ -31,12 +43,15 @@ struct ContentView: View {
                     dismissButton: .default(Text("Awesome!"))
                 )
             }
+            
+            //Score row
+            
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().previewLayout(.fixed(width: 896, height: 414))
     }
 }
