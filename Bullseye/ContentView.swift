@@ -43,7 +43,6 @@ struct ContentView: View {
             Button(action: {
                 
                 self.alertIsVisible = true
-                self.score = self.score + self.pointsForCurrentRound()
                 
             }) {
                 
@@ -59,8 +58,10 @@ struct ContentView: View {
                     title: Text("Hello there!"),
                     message: Text("The slider's value is \(sliderValueRounded()). \n" +
                         "You scored \(pointsForCurrentRound()) points this round."),
-                    dismissButton: .default(Text("Awesome!"))
-                    
+                    dismissButton: .default(Text("Awesome!")) {
+                        self.score = self.score + self.pointsForCurrentRound()
+                        self.target = Int.random(in: 1...100)
+                    }
                 )
             }
             
