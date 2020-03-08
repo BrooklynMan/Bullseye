@@ -71,7 +71,9 @@ struct ContentView: View {
             
             //Score row
             HStack {
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                Button(action: {
+                    self.resetGame()
+                }) {
                     Text("Start Over")
                 }
                 
@@ -139,10 +141,18 @@ struct ContentView: View {
         return title
     }
     
+    func resetGame() {
+        
+        score = 0
+        round = 1
+        sliderValue = 50.0
+
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().previewLayout(.fixed(width: 896, height: 414))
+        ContentView().previewLayout(.fixed(width: 812, height: 375))
     }
 }
