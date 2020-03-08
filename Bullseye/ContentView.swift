@@ -14,6 +14,7 @@ struct ContentView: View {
     @State var sliderValue = 50.0
     @State var target = Int.random( in: 1...100 )
     @State var score = 0
+    @State var round = 1
     
     var body: some View {
         VStack {
@@ -55,12 +56,13 @@ struct ContentView: View {
                 
                 return Alert(
                     
-                    title: Text("Hello there!"),
+                    title: Text(alertTitle()),
                     message: Text("The slider's value is \(sliderValueRounded()). \n" +
                         "You scored \(pointsForCurrentRound()) points this round."),
                     dismissButton: .default(Text("Awesome!")) {
                         self.score = self.score + self.pointsForCurrentRound()
                         self.target = Int.random(in: 1...100)
+                        self.round += 1
                     }
                 )
             }
@@ -81,7 +83,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Text("Round:")
-                Text("999")
+                Text("\(round)")
                 
                 Spacer()
                 
@@ -94,11 +96,47 @@ struct ContentView: View {
     }
     
     func sliderValueRounded() -> Int {
-        return Int(sliderValue.rounded())
+        Int(sliderValue.rounded())
+    }
+    
+    func amountOff() -> Int {
+        abs(target - sliderValueRounded())
     }
     
     func pointsForCurrentRound() -> Int {
-        return 100 - abs(target - sliderValueRounded())
+        
+        let maximumScore = 100
+        let difference = amountOff()
+        let bonus: Int
+        
+        
+        if difference == 0 {
+            bonus = 100
+        } else if difference == 1 {
+            bonus = 50
+        } else {
+            bonus = 0
+        }
+        
+        return maximumScore - difference + bonus
+    }
+    
+    func alertTitle() -> String {
+        
+        let difference = amountOff()
+        let title: String
+        
+        if difference == 0 {
+            title = "Perfect!"
+        } else if difference < 5 {
+            title = "You almost had it!"
+        } else if difference <= 10 {
+            title = "Not bad!"
+        } else {
+            title = "Try again!"
+        }
+        
+        return title
     }
     
 }
